@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,11 @@ namespace TestingMCTables
 {
     public class App : Application
     {
+        private static MobileServiceClient mobileServiceClient = null;
+        public static MobileServiceClient getMobileServiceClient()
+        {
+            return mobileServiceClient != null ? mobileServiceClient : mobileServiceClient = new MobileServiceClient("");
+        }
         public App()
         {
             // The root page of your application
