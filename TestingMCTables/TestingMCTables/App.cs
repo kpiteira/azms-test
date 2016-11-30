@@ -13,7 +13,8 @@ namespace TestingMCTables
         private static MobileServiceClient mobileServiceClient = null;
         public static MobileServiceClient getMobileServiceClient()
         {
-            return mobileServiceClient != null ? mobileServiceClient : mobileServiceClient = new MobileServiceClient("");
+            return mobileServiceClient != null ? mobileServiceClient : 
+                mobileServiceClient = new MobileServiceClient("http://mobile-908114b5-c764-4fab-bc2c-2c1cf521bc43.azurewebsites.net");
         }
         public App()
         {
@@ -32,8 +33,16 @@ namespace TestingMCTables
                     }
                 }
             };
+            
 
             MainPage = new NavigationPage(content);
+            insertRecord();
+        }
+        private async void insertRecord()
+        {
+            Users user = new Users();
+            user.Name = Guid.NewGuid().ToString(); 
+            await getMobileServiceClient().GetTable<Users>().InsertAsync(user);
         }
 
         protected override void OnStart()
@@ -43,7 +52,7 @@ namespace TestingMCTables
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            mobileServiceClient = null;
         }
 
         protected override void OnResume()
